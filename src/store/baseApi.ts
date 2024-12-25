@@ -4,6 +4,7 @@ export const baseApi = createApi({
     reducerPath: "api",
     baseQuery: fetchBaseQuery({
         baseUrl: process.env.NEXT_PUBLIC_API_URL,
+        credentials: "include",
     }),
     tagTypes: ["login"],
     endpoints: (builder) => ({
@@ -14,8 +15,7 @@ export const baseApi = createApi({
             query: (data) => ({
                 url: "/auth/admin/login",
                 method: "POST",
-                body: data,
-                credentials: "include",
+                body: data, 
             }),
             invalidatesTags: ["login"],
         }),
