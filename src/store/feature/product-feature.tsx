@@ -51,6 +51,9 @@ export const productApi = baseApi
                     url: "/products/create",
                     body,
                     method: "POST",
+                    headers: {
+                        Authorization: `Basic ${Buffer.from(`${process.env.NEXT_PUBLIC_URL_USERNAME}:${process.env.NEXT_PUBLIC_URL_PASSWORD}`).toString("base64")}`,
+                    },
                     credentials: "include",
                 }),
                 invalidatesTags: ["add-products"],
@@ -62,6 +65,9 @@ export const productApi = baseApi
                 query: ({ body, id }) => ({
                     url: `/products/update/${id}`,
                     body,
+                    headers: {
+                        Authorization: `Basic ${Buffer.from(`${process.env.NEXT_PUBLIC_URL_USERNAME}:${process.env.NEXT_PUBLIC_URL_PASSWORD}`).toString("base64")}`,
+                    },
                     method: "PATCH",
                     credentials: "include",
                 }),
@@ -72,6 +78,9 @@ export const productApi = baseApi
                     url: `/products/delete/${id}`,
                     method: "POST",
                     credentials: "include",
+                    headers: {
+                        Authorization: `Basic ${Buffer.from(`${process.env.NEXT_PUBLIC_URL_USERNAME}:${process.env.NEXT_PUBLIC_URL_PASSWORD}`).toString("base64")}`,
+                    },
                 }),
                 invalidatesTags: ["delete-products"],
             }),

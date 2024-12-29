@@ -9,8 +9,7 @@ import InputField from "@/Components/common/InputField";
 import { useRouter } from "next/navigation";
 import CommonLayout from "@/Components/auth/CommonLayout";
 import { validate } from "@/utils/ValidateSchema";
-import { useEffect, useState } from "react";
-import { useLoginMutation } from "@/store/baseApi";
+import { useState } from "react";
 import { Spinner } from "flowbite-react";
 
 const LogIn: React.FC = () => {
@@ -29,12 +28,16 @@ const LogIn: React.FC = () => {
 
     const handelSubmit = async (values: any) => {
         try {
+            setIsLoading(true);
             const { data } = await axios.post(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/login`, values);
             if (data.success) {
                 router.push("/");
+                toast.success(data.message);
             }
         } catch (error: any) {
             toast.error(error?.response?.data?.message || "Failed to login");
+        } finally {
+            setIsLoading(false);
         }
     };
 
