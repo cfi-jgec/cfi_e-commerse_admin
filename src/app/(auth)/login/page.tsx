@@ -15,16 +15,28 @@ import { Spinner } from "flowbite-react";
 
 const LogIn: React.FC = () => {
     const router = useRouter();
-    const [login, { isError, isLoading, error, isSuccess }] = useLoginMutation();
+    const [isLoading, setIsLoading] = useState(false);
+    // const [login, { isError, isLoading, error, isSuccess }] = useLoginMutation();
 
-    useEffect(() => {
-        if (isError) { 
-            toast.error((error as any)?.data?.message);
+    // useEffect(() => {
+    //     if (isError) { 
+    //         toast.error((error as any)?.data?.message);
+    //     }
+    //     if (isSuccess) {
+    //         router.push("/");
+    //     }
+    // }, [isError, isSuccess, error, router]);
+
+    const handelSubmit = async (values: any) => {
+        try {
+            const { data } = await axios.post(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/login`, values);
+            if (data.success) {
+                router.push("/");
+            }
+        } catch (error: any) {
+            toast.error(error?.response?.data?.message || "Failed to login");
         }
-        if (isSuccess) {
-            router.push("/");
-        }
-    }, [isError, isSuccess, error, router]);
+    };
 
     return (
         <>
@@ -39,7 +51,8 @@ const LogIn: React.FC = () => {
                             password: "",
                         }}
                         validationSchema={validate}
-                        onSubmit={async (values) => await login(values)}
+                        // onSubmit={async (values) => await login(values)}
+                        onSubmit={handelSubmit}
                     >
                         {(formik) => (
                             <Form>
